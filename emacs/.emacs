@@ -38,7 +38,7 @@
 
 (global-set-key (kbd "C-c i t") 'my/set-cpp-tabs-indentation)
 
-;; Refresh the current buffer from disk - also checks rw flags: useful after an adl_co for example
+;; Refresh the current buffer from disk - also checks rw flags
 (defun my-revert-buffer-no-confirm ()
   (interactive)
   (revert-buffer :ignore-auto :noconfirm))
