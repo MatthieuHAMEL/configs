@@ -75,3 +75,37 @@
 (global-set-key (kbd "C-c p") 'copy-buffer-full-path)
 (global-set-key (kbd "C-c f") 'copy-buffer-filename)
 
+;; Diffing w/ external tools
+(defun matou-diff-tool ()
+  (cond
+   ((eq system-type 'windows-nt) "WinMergeU.exe")
+   ((eq system-type 'gnu/linux)  "meld")
+   (t (error "Unsupported OS"))))
+
+(defun matou-run-diff-tool (file1 file2)
+  "Run the external diff tool on FILE1 and FILE2."
+  (let ((tool (matou-diff-tool)))
+    (message "Running %s on %s and %s" tool file1 file2)
+    (start-process "my-diff" nil tool file1 file2)))
+
+(defun matou-fmerge (file1 file2)
+  "Open Meld/winmerge diff on FILE1 and FILE2."
+  (interactive
+   (let ((f1 (read-file-name "First file: "))
+         (f2 (read-file-name "Second file: ")))
+     (list f1 f2)))
+  (matou-run-diff-tool file1 file2))
+
+(defun matou-bmerge (buf1 buf2)
+  "Diff the files visited by BUF1 and BUF2 using the appropriate tool.
+  allows to select the buffers in the same way than in C-x b"
+  (interactive
+   (let* ((buf1 (read-buffer "First buffer: " (current-buffer) t))
+          (buf2 (read-buffer "Second buffer: " nil t)))
+     (list buf1 buf2)))
+  (let ((file1 (buffer-file-name (get-buffer buf1)))
+        (file2 (buffer-file-name (get-buffer buf2))))
+    (if (and file1 file2)
+        (matou-run-diff-tool file1 file2)
+      (error "Both buffers must be visiting files"))))
+
