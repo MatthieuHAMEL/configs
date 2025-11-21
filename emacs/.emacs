@@ -12,6 +12,11 @@
 ;; Symbol overlay
 (add-hook 'prog-mode-hook 'symbol-overlay-mode)
 
+;; Move-text
+(require 'move-text)
+(global-set-key (kbd "M-p") 'move-text-up)
+(global-set-key (kbd "M-n") 'move-text-down)
+
 ;; See recently opened file (including those from previous sessions) when doing C-x C-r
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
