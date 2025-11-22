@@ -3,6 +3,7 @@
 (global-display-line-numbers-mode 1)
 (set-face-attribute 'line-number nil :background "#212630" :foreground "gray42")
 (set-face-attribute 'line-number-current-line nil :foreground "gray45")
+(show-paren-mode 1)
 
 ;; IDO-mode
 (setq ido-enable-flex-matching t)
@@ -21,6 +22,9 @@
 (recentf-mode 1)
 (setq recentf-max-menu-items 25)
 (global-set-key "\C-x\ \C-r" 'recentf-open-files)
+
+;; Go to the file whose name is under the cursor
+(global-set-key (kbd "C-x C-g") 'find-file-at-point)
 
 ;; Refreshes when something changes in the file properties
 (global-auto-revert-mode 1)
